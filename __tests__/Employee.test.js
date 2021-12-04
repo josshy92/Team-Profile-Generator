@@ -11,11 +11,11 @@ test("test constructor values from employee object", () => {
 test("test the getName() method", () => {
     expect(employee.getName()).toBe("John")})
 
-test("test the getName() method", () => {
+test("test the getId() method", () => {
     expect(employee.getId()).toBe("001")})
 
-test("test the getName() method", () => {
+test("test the getEmail() method", () => {
     expect(employee.getEmail()).toBe("John@email.com")})
     
-test("test the getName() method", () => {
+test("test the getRole() method", () => {
     expect(employee.getRole()).toBe("Employee")})
