@@ -2,97 +2,136 @@
 const Manager = require('./lib/Manager')
 const Engineer = require('./lib/Engineer')
 const Intern = require('./lib/Intern')
+const renderHTML = require("./src/renderHTML")
+let team = [];
 
 // Require inquirer library and file storage
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-
-// const path = require('path')
-// const OUTPUT_DIR = path.resolve(__dirname, 'output')
-// const outputPath = path.join(OUTPUT_DIR, "team.html")
-
-const generateReadme = (data) =>
-`<!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
-</head>
-          <body>
-            <header>This is ${data.name}'s page!</header>
-            <h1>I am from the beautiful city of ${location}.</h1>
-            <ul>You can contact me at either of the following:</ul>
-            <li>Github: ${github}</li>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. ${name} Ducimus provident animi reiciendis alias inventore sequi illo ratione non assumenda laboriosam, molestias laudantium maiores earum soluta quibusdam deserunt laborum quos placeat.</p>
-            <br>
-
-              <li>Linkedin: ${linkedin}</li>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic beatae ab magnam. Modi mollitia ullam corrupti perspiciatis animi laudantium pariatur exercitationem libero, atque quis vero soluta ad accusantium dolore. Laboriosam.</p>
-              <br>
-    
-</body>
-</html>`;
-
 // Begin prompts for user input
-inquirer
-    .prompt([
+function managerInfo() {
+    inquirer.prompt([
         {
             type: 'input',
             message: 'Who is the manager?',
             name: 'name',
         },
+
         {
             type: 'input',
-            message: 'Descrition:?',
-            name: 'description',
-        },
-        {
-            type: 'list',
-            message: 'Choose your license',
-            name: 'badges',
-            choices: ['MIT', 'Apache_2.0', 'Boost_1.0']
+            message: 'ID:?',
+            name: 'id',
         },
         {
             type: 'input',
-            message: 'What are the installation instructions?',
-            name: 'installation',
-        },
-        {
-            type: 'input',
-            message: 'What are some examples for use?',
-            name: 'usage',
-        },
-        {
-            type: 'input',
-            message: 'If you created an app or package and would like other developers to contribute it, you can include guidelines for how to do so here.',
-            name: 'contributions',
-        },
-        {
-            type: 'input',
-            message: 'Tests for the application? Please provide examples on how to run them here.',
-            name: 'tests',
-        },
-        {
-            type: 'input',
-            message: 'Github User Name:',
-            name: 'username',
-        },
-        {
-            type: 'input',
-            message: 'Email address:',
+            message: 'Email',
             name: 'email',
         },
+        {
+            type: 'input',
+            message: 'Office Number?',
+            name: 'officeNumber',
+        },
     ])
-    // Then grab the responses and generate a Readme file with all of the saved content.
-    .then((response) => {
-        console.log(response)
-        const teamProfileGenerator = generateReadme(response)
-
-        fs.writeFile('index.html', teamProfileGenerator, (err) =>
-            err ? console.log(err) : console.log('Successfully created Team Profile!')
-        );
+        .then((response) => {
+            const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
+            team.push(manager);
+            console.log(manager)
+            addEmployee()
+        })
     }
-    );
+
+const addEmployee = () => {
+    inquirer.prompt([
+        {
+            type: 'list',
+            message: 'What other employee do you wish to add?',
+            name: 'newEmployee',
+            choices: ['intern', 'engineer', 'no other employees']
+        }
+    ]).then(response => {
+        switch (response.newEmployee) {
+            case "intern":
+                internInfo()
+                break;
+            case "engineer":
+                engineerInfo()
+                break;
+            case "no other employees":
+                let teamData = renderHTML(team)
+                fs.writeFile('./src/index.html', teamData, (err) =>
+                    err ? console.log(err) : console.log('Successfully created Team Profile!')
+                );
+                break;
+        }
+    })
+}
+
+let internInfo = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Who is the intern?',
+            name: 'name',
+        },
+
+        {
+            type: 'input',
+            message: 'ID:?',
+            name: 'id',
+        },
+        {
+            type: 'input',
+            message: 'Email',
+            name: 'email',
+        },
+        {
+            type: 'input',
+            message: 'School?',
+            name: 'school',
+        },
+    ])
+        .then((response) => {
+            const intern = new Intern(response.name, response.id, response.email, response.school);
+            team.push(intern);
+            console.log(intern)
+            addEmployee()
+        })
+}
+
+let engineerInfo = () => {
+    inquirer.prompt([
+        {
+            type: 'input',
+            message: 'Who is the engineer?',
+            name: 'name',
+        },
+
+        {
+            type: 'input',
+            message: 'ID:?',
+            name: 'id',
+        },
+        {
+            type: 'input',
+            message: 'Email',
+            name: 'email',
+        },
+        {
+            type: 'input',
+            message: 'Github username?',
+            name: 'github',
+        },
+    ])
+        .then((response) => {
+            const engineer = new Engineer(response.name, response.id, response.email, response.github);
+            team.push(engineer);
+            console.log(engineer)
+            addEmployee()
+        })
+}
+
+
+
+managerInfo()
