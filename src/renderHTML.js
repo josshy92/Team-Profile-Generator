@@ -13,7 +13,7 @@ const generateTeam = (userTeam) => {
 </head>
 <body>
     <main>
-    <div class="center p-3 mb-2 bg-info text-dark"> My Team</div>
+    <div class="text-center p-3 mb-2 bg-info text-dark"> My Team</div>
         <div>
         <div class="row">
         ${userTeam}
@@ -31,9 +31,9 @@ const renderMang = (managerInfo) => {
     <div class="card-body col">
       <h5 class="card-title">${managerInfo.name}</h5>
       <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
-      <p class="card-text">ID: ${managerInfo.id}.</p>
-      <a href="mailto:${managerInfo.email}">Email: ${managerInfo.email}</a>
-      <p class="card-text">Office Number: ${managerInfo.officeNumber}.</p>
+      <p class="card-text">ID: ${managerInfo.id}</p>
+      <p>Email: <a href="mailto:${managerInfo.email}"> ${managerInfo.email}</a> </p>
+      <p class="card-text">Office Number: ${managerInfo.officeNumber}</p>
       </div>
     </div>
 `}
@@ -44,8 +44,8 @@ const renderInt = (internInfo) => {
       <h5 class="card-title">${internInfo.name}</h5>
       <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
       <p class="card-text">ID: ${internInfo.id}.</p>
-      <a href="mailto:${internInfo.email}">Email: ${internInfo.email}</a>
-      <p class="card-text">School: ${internInfo.school}.</p>
+      <p> Email:<a href="mailto:${internInfo.email}">${internInfo.email}</a> </p>
+      <p class="card-text">School: ${internInfo.school}</p>
       </div>
       </div>
       `
@@ -57,8 +57,8 @@ const renderEng = (engineerInfo) => {
       <h5 class="card-title">${engineerInfo.name}</h5>
       <h6 class="card-subtitle mb-2 text-muted">Engineer</h6>
       <p class="card-text">ID: ${engineerInfo.id}.</p>
-      <a href="mailto:${engineerInfo.email}">Email: ${engineerInfo.email}</a>
-      <p class="card-text">Github: <a href="https://github.com/${engineerInfo.github}">${engineerInfo.github}.</a></p>
+      <p> Email: <a href="mailto:${engineerInfo.email}">${engineerInfo.email}</a></p>
+      <p class="card-text">Github: <a href="https://github.com/${engineerInfo.github}">${engineerInfo.github}</a></p>
       </div>
       </div>
     `
